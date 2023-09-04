@@ -39,9 +39,10 @@ public class Player : MonoBehaviour
         Vector3 playerPosition = playerTransform.position;
 
         //Check and limit player's vertical movement
-        //TODO: Clamp the movement with a MathF function 
+        //Leaving in legacy code for reference
         // if (playerPosition.y >= 0) playerTransform.position = new Vector3(transform.position.x, 0, 0);
         // else if (transform.position.y <= -3.8f) playerTransform.position = new Vector3(transform.position.x, -3.8f, 0);
+        //Clamping vertical y position to remove if statements. 
         playerTransform.position = new Vector3(playerPosition.x, Mathf.Clamp(playerPosition.y, -3.8f, 0), 0);
 
         //Check and overlap player's horizontal movement
