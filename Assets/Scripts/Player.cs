@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _laserPrefab;
     private LaserManager _laserManager;
     private bool _isLaserManagerNotNull;
+    [SerializeField] private Vector3 _laserSpawnOffset = new Vector3(0, 0.8f, 0);
 
     private void Awake()
     {
@@ -41,7 +42,11 @@ public class Player : MonoBehaviour
             if (_isLaserManagerNotNull) _laserManager.speed = _laserSpeed;
 
             //Instantiate game object
-            Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+            Instantiate(_laserPrefab, transform.position + _laserSpawnOffset, Quaternion.identity);
+            
+            // when instantiated, add an offset
+            
+            
         }
     }
 

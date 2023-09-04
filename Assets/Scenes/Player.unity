@@ -243,8 +243,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerSpawnPos: {fileID: 626393815}
   _speed: 3
-  _laserSpeed: 15
+  _laserSpeed: 5
   _laserPrefab: {fileID: 7112193886073706166, guid: 5055e2d02e812414f8f18b675903af9d, type: 3}
+  _laserSpawnOffset: {x: 0, y: 0.8, z: 0}
 --- !u!1 &626393814
 GameObject:
   m_ObjectHideFlags: 0
