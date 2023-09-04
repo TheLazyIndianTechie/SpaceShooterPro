@@ -1,4 +1,5 @@
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour
 {
@@ -20,6 +21,25 @@ public class Enemy : MonoBehaviour
         {
             float randomX = Random.Range(-9f, 9f);
             transform.position = new Vector3(randomX, 7, 0);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Enemy Hit: " + other.gameObject.name);
+        
+        //If enemy collides with player, destroy player and then destroy us
+        if (other.CompareTag("Player"))
+        {
+            Destroy(other.gameObject);
+            Destroy(this.gameObject);
+        }
+        
+        //if enemy collides with laser, destroy laser and then us
+        if (other.CompareTag("Laser"))
+        {
+            Destroy(other.gameObject);
+            Destroy(gameObject);
         }
     }
 }
