@@ -30,22 +30,18 @@ public class Player : MonoBehaviour
     private void Update()
     {
         CalculateMovement();
-        
-        // if space key is hit
-        // spawn prefab 
+        Fire();
+    }
 
+    private void Fire()
+    {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             // Setting up the speed here so it can be changed later during runtime 
-            if (_isLaserManagerNotNull)
-            {
-                _laserManager.speed = _laserSpeed;
-            }
-            
+            if (_isLaserManagerNotNull) _laserManager.speed = _laserSpeed;
+
             //Instantiate game object
-            GameObject go = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
-
-
+            Instantiate(_laserPrefab, transform.position, Quaternion.identity);
         }
     }
 
