@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform _playerSpawnPos;
     [SerializeField] private float _speed = 2f, _laserSpeed = 2f;
     [SerializeField] private GameObject _laserPrefab;
-    private LaserManager _laserManager;
+    private Laser _laser;
     [SerializeField] private Vector3 _laserSpawnOffset = new Vector3(0, 0.8f, 0);
 
     [SerializeField] private float _fireRate = 0.5f;
@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     
     private void Awake()
     {
-        _laserManager = _laserPrefab.GetComponent<LaserManager>();
+        _laser = _laserPrefab.GetComponent<Laser>();
     }
     
 
@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
     private void Fire()
     {
         // Setting up the speed here so it can be changed later during runtime 
-        _laserManager.speed = _laserSpeed;
+        _laser.speed = _laserSpeed;
         
         //Set cooldown 
         _canFire = Time.time + _fireRate;
