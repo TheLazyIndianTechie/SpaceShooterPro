@@ -29,5 +29,35 @@ public class Player : MonoBehaviour
         //the x and y directions multiplied by time and speed
         transform.Translate(direction * (Time.deltaTime * speed));
         
+        // If player position on y is > 0,
+        // y position = 0
+
+        if (transform.position.y >= 0)
+        {
+            transform.position = new Vector3(transform.position.x,0,0);
+        }
+        
+        else if (transform.position.y <= - 3.8f)
+        {
+            transform.position = new Vector3(transform.position.x, -3.8f, 0);
+            
+        }
+        
+        //if position on x axes >= 11
+        // Set position to -11
+        // if position on x axes <= -11
+        // set position to 11
+
+        if (transform.position.x >= 12f)
+        {
+            transform.position = new Vector3(-12, transform.position.y, 0);
+            
+        }
+        
+        else if (transform.position.x <= -12f)
+        {
+            transform.position = new Vector3(12f, transform.position.y, 0);
+        }
+        
     }
 }
