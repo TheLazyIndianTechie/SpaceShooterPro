@@ -31,7 +31,13 @@ public class Enemy : MonoBehaviour
         //If enemy collides with player, destroy player and then destroy us
         if (other.CompareTag("Player"))
         {
-            Destroy(other.gameObject);
+            // Get the component player from collision
+            Player player = other.transform.GetComponent<Player>();
+            
+            // Check if GetComponent is working and do Damage by calling the remote method
+            if (player != null) player.Damage();
+
+            // Destroy us, the bad bad enemy
             Destroy(this.gameObject);
         }
         

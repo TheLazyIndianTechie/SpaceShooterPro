@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float _fireRate = 0.5f;
     private float _canFire = -1.0f;
+
+    [SerializeField] private int _lives = 3;
     
     
     private void Awake()
@@ -32,8 +35,14 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        //Player movement based on input axes
         CalculateMovement();
+        
+        //Fire weapon on cooldown by pressing space
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire) Fire();
+        
+        //Restart game by pressing R
+        if (Input.GetKeyDown(KeyCode.R)) RestartGame();
     }
 
     private void Fire()
@@ -76,5 +85,24 @@ public class Player : MonoBehaviour
         //Check and overlap player's horizontal movement
         if (playerPosition.x >= 12f) playerTransform.position = new Vector3(-12, transform.position.y, 0);
         else if (transform.position.x <= -12f) playerTransform.position = new Vector3(12f, transform.position.y, 0);
+    }
+
+    public void Damage()
+    {
+        _lives--;
+        
+        //Check if dead
+        // if dead, destroy us
+        if (_lives < 1)
+        {
+            //Destroy us the player
+            Destroy(this.gameObject);
+        }
+    }
+    
+    private void RestartGame()
+    {
+        //Restart game
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
