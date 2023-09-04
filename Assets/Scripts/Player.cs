@@ -22,9 +22,12 @@ public class Player : MonoBehaviour
         //Get both horizontal and vertical input per frame 
         float horizontalInput = Input.GetAxis("Horizontal"), verticalInput = Input.GetAxis("Vertical");
         
-        //Move the player by taking the horizontal and vertical input per frame in
+        //Cache the Vector3 input within update for reuse
+        Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
+        
+        //Move the player by taking the cached horizontal and vertical input per frame in
         //the x and y directions multiplied by time and speed
-        transform.Translate(horizontalInput, verticalInput, 0 * Time.deltaTime * speed);
+        transform.Translate(direction * (Time.deltaTime * speed));
         
     }
 }
