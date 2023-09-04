@@ -7,13 +7,15 @@ public class Player : MonoBehaviour
     [SerializeField] private float _speed = 2f, _laserSpeed = 2f;
     [SerializeField] private GameObject _laserPrefab;
     private LaserManager _laserManager;
-    private bool _isLaserManagerNotNull;
     [SerializeField] private Vector3 _laserSpawnOffset = new Vector3(0, 0.8f, 0);
 
+    [SerializeField] private float _fireRate = 0.5f;
+    private float _canFire = -1.0f;
+    
+    
     private void Awake()
     {
         _laserManager = _laserPrefab.GetComponent<LaserManager>();
-        _isLaserManagerNotNull = _laserManager != null;
     }
     
 
@@ -31,23 +33,21 @@ public class Player : MonoBehaviour
     private void Update()
     {
         CalculateMovement();
-        Fire();
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire) Fire();
     }
 
     private void Fire()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            // Setting up the speed here so it can be changed later during runtime 
-            if (_isLaserManagerNotNull) _laserManager.speed = _laserSpeed;
+        // Setting up the speed here so it can be changed later during runtime 
+        _laserManager.speed = _laserSpeed;
+        
+        //Set cooldown 
+        _canFire = Time.time + _fireRate;
+            
+        //Instantiate game object
+        Instantiate(_laserPrefab, transform.position + _laserSpawnOffset, Quaternion.identity);
 
-            //Instantiate game object
-            Instantiate(_laserPrefab, transform.position + _laserSpawnOffset, Quaternion.identity);
-            
-            // when instantiated, add an offset
-            
-            
-        }
+
     }
 
     private void CalculateMovement()
