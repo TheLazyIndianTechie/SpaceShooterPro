@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LaserManager : MonoBehaviour
+public class Laser : MonoBehaviour
 {
     // Control the speed of the laser
     public float speed = 2f;

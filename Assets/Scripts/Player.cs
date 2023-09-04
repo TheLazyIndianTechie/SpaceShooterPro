@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -6,18 +7,18 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform _playerSpawnPos;
     [SerializeField] private float _speed = 2f, _laserSpeed = 2f;
     [SerializeField] private GameObject _laserPrefab;
-    private LaserManager _laserManager;
+    private Laser _laser;
     [SerializeField] private Vector3 _laserSpawnOffset = new Vector3(0, 0.8f, 0);
 
     [SerializeField] private float _fireRate = 0.5f;
     private float _canFire = -1.0f;
-    
+
+    [SerializeField] private int _lives = 3;
     
     private void Awake()
     {
-        _laserManager = _laserPrefab.GetComponent<LaserManager>();
+        _laser = _laserPrefab.GetComponent<Laser>();
     }
-    
 
     // Start is called before the first frame update
     private void Start()
@@ -32,22 +33,26 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        //Player movement based on input axes
         CalculateMovement();
+        
+        //Fire weapon on cooldown by pressing space
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire) Fire();
+        
+        //Restart game by pressing R
+        if (Input.GetKeyDown(KeyCode.R)) RestartGame();
     }
 
     private void Fire()
     {
         // Setting up the speed here so it can be changed later during runtime 
-        _laserManager.speed = _laserSpeed;
+        _laser.speed = _laserSpeed;
         
         //Set cooldown 
         _canFire = Time.time + _fireRate;
             
         //Instantiate game object
         Instantiate(_laserPrefab, transform.position + _laserSpawnOffset, Quaternion.identity);
-
-
     }
 
     private void CalculateMovement()
@@ -76,5 +81,23 @@ public class Player : MonoBehaviour
         //Check and overlap player's horizontal movement
         if (playerPosition.x >= 12f) playerTransform.position = new Vector3(-12, transform.position.y, 0);
         else if (transform.position.x <= -12f) playerTransform.position = new Vector3(12f, transform.position.y, 0);
+    }
+
+    public void Damage()
+    {
+        //Decrement lives
+        _lives--;
+        
+        if (_lives < 1)
+        {
+            //Destroy us the player
+            Destroy(this.gameObject);
+        }
+    }
+    
+    private void RestartGame()
+    {
+        //Restart game
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
