@@ -12,7 +12,7 @@ public class LaserManager : MonoBehaviour
         //if the position is out of the screen
         // destroy this object
 
-        if (transform.position.y >= 7)
+        if (transform.position.y >= 7f)
         {
             Destroy(gameObject);
         }
