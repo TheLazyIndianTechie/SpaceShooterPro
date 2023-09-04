@@ -15,12 +15,10 @@ public class Player : MonoBehaviour
 
     [SerializeField] private int _lives = 3;
     
-    
     private void Awake()
     {
         _laser = _laserPrefab.GetComponent<Laser>();
     }
-    
 
     // Start is called before the first frame update
     private void Start()
@@ -55,8 +53,6 @@ public class Player : MonoBehaviour
             
         //Instantiate game object
         Instantiate(_laserPrefab, transform.position + _laserSpawnOffset, Quaternion.identity);
-
-
     }
 
     private void CalculateMovement()
@@ -89,10 +85,9 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
+        //Decrement lives
         _lives--;
         
-        //Check if dead
-        // if dead, destroy us
         if (_lives < 1)
         {
             //Destroy us the player
