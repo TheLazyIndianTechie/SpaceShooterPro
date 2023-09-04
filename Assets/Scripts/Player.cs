@@ -3,23 +3,50 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     // Initialize variables for player spawn position
-    [SerializeField] private Transform playerSpawnPos;
-    [SerializeField] private float speed = 2f;
+    [SerializeField] private Transform _playerSpawnPos;
+    [SerializeField] private float _speed = 2f, _laserSpeed = 2f;
+    [SerializeField] private GameObject _laserPrefab;
+    private LaserManager _laserManager;
+    private bool _isLaserManagerNotNull;
+
+    private void Awake()
+    {
+        _laserManager = _laserPrefab.GetComponent<LaserManager>();
+        _isLaserManagerNotNull = _laserManager != null;
+    }
+    
 
     // Start is called before the first frame update
     private void Start()
     {
         //Better to return if inspector value hasn't been assigned
-        if (playerSpawnPos == null) return;
+        if (_playerSpawnPos == null) return;
         
         //Initialize the player to the target spawn origin if assigned.
-        transform.position = playerSpawnPos.position;
+        transform.position = _playerSpawnPos.position;
     }
 
     // Update is called once per frame
     private void Update()
     {
         CalculateMovement();
+        
+        // if space key is hit
+        // spawn prefab 
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // Setting up the speed here so it can be changed later during runtime 
+            if (_isLaserManagerNotNull)
+            {
+                _laserManager.speed = _laserSpeed;
+            }
+            
+            //Instantiate game object
+            GameObject go = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+
+
+        }
     }
 
     private void CalculateMovement()
@@ -33,7 +60,7 @@ public class Player : MonoBehaviour
         //Move the player by taking the cached horizontal and vertical input per frame in
         //the x and y directions multiplied by time and speed
         Transform playerTransform;
-        (playerTransform = transform).Translate(direction * (Time.deltaTime * speed));
+        (playerTransform = transform).Translate(direction * (Time.deltaTime * _speed));
 
         //Create a local cached variable of player's position
         Vector3 playerPosition = playerTransform.position;
