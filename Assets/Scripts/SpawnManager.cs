@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    [SerializeField] private Transform spawnPos;
+    [SerializeField] private Transform enemyContainer;
     [SerializeField] private GameObject prefab;
     [SerializeField] private float waitDuration;
     
@@ -11,7 +11,7 @@ public class SpawnManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (prefab == null || spawnPos == null) return;
+        if (prefab == null || enemyContainer == null) return;
         StartCoroutine(SpawnRoutine(waitDuration));   
     }
 
@@ -19,7 +19,8 @@ public class SpawnManager : MonoBehaviour
     {
         while (true)
         {
-            GameObject go = Instantiate(prefab, spawnPos.position, Quaternion.identity); //Instantiate prefab at spawn position
+            GameObject go = Instantiate(prefab, enemyContainer.position, Quaternion.identity); //Instantiate prefab at spawn position
+            go.transform.parent = enemyContainer.transform;
             
             #if UNITY_EDITOR
             Debug.Log("Launched Enemy: " + go.name );
