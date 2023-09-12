@@ -14,6 +14,9 @@ public class Player : MonoBehaviour
     private float _canFire = -1.0f;
 
     [SerializeField] private int _lives = 3;
+
+    private SpawnManager _spawnManager;
+    
     
     private void Awake()
     {
@@ -28,6 +31,13 @@ public class Player : MonoBehaviour
         
         //Initialize the player to the target spawn origin if assigned.
         transform.position = _playerSpawnPos.position;
+        
+        // Query and get the Spawn Manager object and cache it in start
+        _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+
+        // Check if the spawn manager is found
+        if (_spawnManager == null) Debug.LogError("The spawn manager cannot be found");
+        
     }
 
     // Update is called once per frame
@@ -90,6 +100,10 @@ public class Player : MonoBehaviour
         
         if (_lives < 1)
         {
+            
+            // Communicate player death to the Spawn Manager
+            _spawnManager.OnPlayerDeath();
+            
             //Destroy us the player
             Destroy(this.gameObject);
         }

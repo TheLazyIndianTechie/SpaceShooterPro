@@ -6,6 +6,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private Transform enemyContainer;
     [SerializeField] private GameObject prefab;
     [SerializeField] private float waitDuration;
+
+    private bool _stopSpawner = false;
     
 
     // Start is called before the first frame update
@@ -17,7 +19,7 @@ public class SpawnManager : MonoBehaviour
 
     private IEnumerator SpawnRoutine(float duration = 5.0f)
     {
-        while (true)
+        while (_stopSpawner == false)
         {
             GameObject go = Instantiate(prefab, enemyContainer.position, Quaternion.identity); //Instantiate prefab at spawn position
             go.transform.parent = enemyContainer.transform;
@@ -29,4 +31,7 @@ public class SpawnManager : MonoBehaviour
             yield return new WaitForSeconds(duration); // Wait 5 seconds
         }
     }
+    
+    public void OnPlayerDeath() => _stopSpawner = true;
+    
 }
